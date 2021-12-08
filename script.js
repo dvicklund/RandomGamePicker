@@ -125,10 +125,17 @@ function searchLocal(query) {
         data.games.forEach(elem => {
             let newItemNode = document.createElement("li")
             let image = document.createElement("img")
+            let linkNode = document.createElement("a")
             // console.log("Image url: " + elem.image_url)
+            if(elem.official_url != "undefined") {
+                linkNode.href = elem.official_url
+            } else {
+                linkNode.href = elem.url
+            }
             image.src = elem.image_url
             newItemNode.innerHTML = elem.description
-            newItemNode.appendChild(image)
+            linkNode.appendChild(image)
+            newItemNode.appendChild(linkNode)
             searchResults.appendChild(newItemNode)
         });
     } catch (e) {
@@ -143,18 +150,28 @@ function searchRemotely(query) {
     
     let storageKey = query + "_search"
     
-    const reqPromise = fetch(`https://api.boardgameatlas.com/api/search?name=${query}&order_by=rank&client_id=${bgaID}&limit=10&fields=name,image_url,description`)
+    const reqPromise = fetch(`https://api.boardgameatlas.com/api/search?name=${query}&order_by=rank&client_id=${bgaID}&limit=10&fields=name,image_url,description,official_url,url`)
     // const reqPromise = fetch(`https://noresponse`) //error handling test
     .then(res => {
         return res.json()
     })
     .then((data) => {
         data.games.forEach(elem => {
+            // console.log(elem);
             let newItemNode = document.createElement("li")
             let image = document.createElement("img")
+            let linkNode = document.createElement("a")
+
+            if(elem.official_url) {
+                linkNode.href = elem.official_url
+            } else {
+                linkNode.href = elem.url
+            }
+
             image.src = elem.image_url
             newItemNode.innerHTML = elem.description
-            newItemNode.appendChild(image);
+            linkNode.appendChild(image)
+            newItemNode.appendChild(linkNode)
             searchResults.appendChild(newItemNode)
         })
 
@@ -207,13 +224,20 @@ function getGameRemotely(index) {
         let gameData = data.games[0]
         
         let newItemNode = document.createElement("aside")
+        let linkNode = document.createElement("a")
         let image = document.createElement("img")
         let title = document.createElement("h1")
         
         image.src = gameData.image_url
         title.innerHTML = games[index].name
+        if(gameData.official_url) {
+            linkNode.href = gameData.official_url
+        } else {
+            linkNode.href = gameData.url
+        }
         newItemNode.appendChild(title)
-        newItemNode.appendChild(image)
+        linkNode.appendChild(image)
+        newItemNode.appendChild(linkNode)
         nameArea.appendChild(newItemNode)
         
         let selected = games[index]
@@ -262,13 +286,20 @@ function getGameLocally(index) {
         let gameData = data.games[0]
         
         let newItemNode = document.createElement("aside")
+        let linkNode = document.createElement("a")
         let image = document.createElement("img")
         let title = document.createElement("h1")
         
         image.src = gameData.image_url
         title.innerHTML = games[index].name
+        if(gameData.official_url) {
+            linkNode.href = gameData.official_url
+        } else {
+            linkNode.href = gameData.url
+        }
         newItemNode.appendChild(title)
-        newItemNode.appendChild(image)
+        linkNode.appendChild(image)
+        newItemNode.appendChild(linkNode)
         nameArea.appendChild(newItemNode)
         
         let selected = games[index]
