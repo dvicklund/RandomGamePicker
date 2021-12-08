@@ -4,16 +4,22 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <header>
+            <nav>
+                <input type="text" name="search" id="searchBox" placeholder="Search for game" onsubmit="search()">
+                <button id="pickButton" onclick="selectRandom2()">Pick a game!</button>
+            </nav>
+        </header>
         <main>
-            <input type="text" name="search" id="searchBox" placeholder="Search for game" onsubmit="search()">
-
-            <ul id="searchResults"></ul>
-
-            <p id="game"></p>
-            <p id="variants"></p>
-            <button id="pickButton" onclick="selectRandom()">Pick a game!</button>
+            <section id="mainArea">
+                <h1 id="gameName"></h1>
+                <p id="variants"></p>
+                <ul id="searchResults"></ul>
+            </section>
         </main>
-
+        <footer>
+            <section id="error"></section>
+        </footer>
         <script src="script.js"></script>
     </body>
 </html>

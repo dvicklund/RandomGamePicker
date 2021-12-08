@@ -1,3 +1,8 @@
+#error {
+    color: gray;
+    opacity: 0.3;
+}
+
 /* MVP.css v1.8 - https://github.com/andybrewer/mvp */
 
 :root {
@@ -146,7 +151,7 @@ nav {
     display: flex;
     font-weight: bold;
     justify-content: space-between;
-    margin-bottom: 7rem;
+    /* margin-bottom: 7rem; */
 }
 
 nav ul {
