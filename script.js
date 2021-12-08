@@ -1,3 +1,4 @@
+
 var games = [
     {"name": "Pokemon TCG", "playTime": 20},
     {"name": "Carcassonne: The Castle", "playTime": 30},
@@ -49,7 +50,9 @@ function selectRandom() {
 function selectRandom2() {
     let selected = games[Math.floor(Math.random() * games.length)]
     nameArea.innerHTML = selected.name;
-
+    
+    search(selected.name);
+    
     if (selected.hasOwnProperty("variants")) {
         variantsArea.innerHTML = "Variant: <br>"
         variantsArea.innerHTML += selected.variants[Math.floor(Math.random() * selected.variants.length)]
@@ -63,27 +66,6 @@ searchBox.addEventListener("keydown", (e) => {
     }
 })
 
-let searchResults = document.getElementById("searchResults");
-
-function search(query) {
-    console.log("Searching...")
-    searchResults.innerHTML = ""
-    let result;
-    const reqPromise = fetch(`https://api.boardgameatlas.com/api/search?name=${query}&order_by=rank&client_id=${bgaID}&limit=10&fields=name,image_url,description`)
-        .then(res => res.json())
-        .then((data) => {
-            console.log(searchResults);
-            data.games.forEach(elem => {
-                let newItemNode = document.createElement("li")
-                let image = document.createElement("img")
-                image.src = elem.image_url
-                newItemNode.innerHTML = elem.description
-                newItemNode.appendChild(image);
-                searchResults.appendChild(newItemNode)
-            });
-        })
-    console.log("fetching something...")
-}
 
 // function getResource() {
 //     const reqPromise = fetch("https://api.boardgameatlas.com/api/search?name=Carcassonne&order_by=rank&client_id=" + bgaID)
@@ -100,3 +82,26 @@ function search(query) {
 // }
 
 // getResource();
+            
+let searchResults = document.getElementById("searchResults");
+
+function search(query) {
+    console.log("Searching...")
+    searchResults.innerHTML = ""
+    let result;
+    const reqPromise = fetch(`https://api.boardgameatlas.com/api/search?name=${query}&order_by=rank&client_id=${bgaID}&limit=10&fields=name,image_url,description`)
+    .then(res => res.json())
+    .then((data) => {
+        console.log(searchResults);
+        data.games.forEach(elem => {
+            let newItemNode = document.createElement("li")
+            let image = document.createElement("img")
+            image.src = elem.image_url
+            newItemNode.innerHTML = elem.description
+            newItemNode.appendChild(image);
+            searchResults.appendChild(newItemNode)
+        });
+    })
+    console.log("fetching something...")
+}
+
